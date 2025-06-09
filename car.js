@@ -12,9 +12,14 @@ class Car {
         this.maxSpeed = 3;
         this.angle = 0;
         this.controls = new Controls();
+        this.#move();
     }
 
     update() {
+        this.#move();
+    }
+
+    #move() {
         // Update position based on speed
         if (this.controls.forward) {
             this.speed += this.acceleration;
@@ -41,6 +46,8 @@ class Car {
         if (Math.abs(this.speed) < this.friction) {
             this.speed = 0;
         }
+
+        // Update position based on speed and angle
         if (this.speed !== 0) {
             const direction = this.speed > 0 ? 1 : -1;
             if (this.controls.left) {
@@ -52,7 +59,7 @@ class Car {
         }
 
         this.x -= Math.sin(this.angle) * this.speed;
-        this.y -= Math.cos(this.angle) * this.speed;
+        this.y -= Math.cos(this.angle) * this.speed;;
     }
 
     draw(ctx) {
