@@ -89,4 +89,21 @@ class Sensor {
             }
         }
     }
+
+    getDangerLevel() {
+        if (this.readings.length === 0) return 0;
+        
+        let closestDistance = this.rayLength;
+        for (let reading of this.readings) {
+            if (reading) {
+                const distance = reading.offset * this.rayLength;
+                if (distance < closestDistance) {
+                    closestDistance = distance;
+                }
+            }
+        }
+        
+        // Retorna um valor entre 0 e 1, onde 1 é o mais perigoso
+        return 1 - (closestDistance / this.rayLength);
+    }
 }
