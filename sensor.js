@@ -23,6 +23,7 @@ class Sensor {
     #getReading(ray, roadBorders, traffic) {
         let touches = [];
 
+        // Check road borders
         for (let i = 0; i < roadBorders.length; i++) {
             const touch = getIntersection(
                 ray[0], 
@@ -35,11 +36,22 @@ class Sensor {
             }
         }
 
+        // Check traffic using car dimensions
         for (let i = 0; i < traffic.length; i++) {
-            const poly = traffic[i].polygon;
-            for (let j = 0; j < poly.length; j++) {
-                const start = poly[j];
-                const end = poly[(j + 1) % poly.length];
+            const car = traffic[i];
+            
+            // Create corners for the car
+            const corners = [
+                {x: car.x - car.width/2, y: car.y - car.height/2},
+                {x: car.x + car.width/2, y: car.y - car.height/2},
+                {x: car.x + car.width/2, y: car.y + car.height/2},
+                {x: car.x - car.width/2, y: car.y + car.height/2}
+            ];
+
+            // Check each edge of the car
+            for (let j = 0; j < corners.length; j++) {
+                const start = corners[j];
+                const end = corners[(j + 1) % corners.length];
                 const touch = getIntersection(ray[0], ray[1], start, end);
                 if (touch) {
                     touches.push(touch);
