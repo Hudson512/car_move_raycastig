@@ -1,11 +1,20 @@
 class Controls {
-    constructor() {
+    constructor(type) {
         this.forward = false;
         this.left = false;
         this.right = false;
         this.reverse = false;
 
-        this.#addKeyboardListeners();
+        switch (type) {
+            case "KEYS":
+                this.#addKeyboardListeners();
+                break;
+            case "DUMMY":
+                this.forward = true; // For testing purposes
+                break;
+            default:
+                throw new Error("Invalid control type");
+        }
     }
 
     #addKeyboardListeners() {
